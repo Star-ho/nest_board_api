@@ -27,6 +27,7 @@
     "@nestjs/typeorm": "^7.1.5",
     "@types/redis": "^2.8.28",
     "mariadb": "^2.5.3",
+    "pg": "^8.5.1",
     "redis": "^3.0.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",

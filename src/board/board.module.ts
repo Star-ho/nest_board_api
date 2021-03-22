@@ -8,7 +8,7 @@ import { Board } from "../entity/board.entity"
 @Module({
   imports: [TypeOrmModule.forRoot({
     "type": "mysql", 
-    "host": "localhost", 
+    "host": "db", 
     "port": 3306,
     "username": "root", 
     "password": "boardjs",
