@@ -6,7 +6,8 @@ services:
     build: .
     ports:
       - '3000:3000'
-
+    depends_on:
+      - db
 
   db: # 서비스 명
     image: mysql:8.0.17 # 사용할 이미지
