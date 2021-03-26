@@ -1,24 +1,12 @@
 import { Module } from '@nestjs/common';
 import { BoardController } from './board.controller';
 import { BoardService } from './board.service';
-import { TypeOrmModule } from "@nestjs/typeorm";
 import { BoardRepository } from "./board.repository"
-import { Board } from "../entity/board.entity"
+import { TypeOrmModule } from "@nestjs/typeorm";
 
 @Module({
-  imports: [TypeOrmModule.forRoot({
-    "type": "mysql", 
-    "host": "db", 
-    "port": 3306,
-    "username": "root", 
-    "password": "boardjs",
-    "database": "board",
-    "entities": [Board], 
-    "logging": true, 
-    "synchronize": true 
-  }
-   ),TypeOrmModule.forFeature([BoardRepository])],
-  controllers: [BoardController],
-  providers: [BoardService]
+  imports: [TypeOrmModule.forFeature([BoardRepository])],
+  controllers: [BoardController],//컨트롤러 지정
+  providers: [BoardService]//서비스 지정
 })
 export class BoardModule {}

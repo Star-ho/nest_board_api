@@ -8,7 +8,7 @@ import {
   import { boardInterface } from "./dto.interface";
   import { BoardService } from "./board.service";
   
-  @Controller('board')
+  @Controller('board')//컨트롤러 생성
   export class BoardController  {
     constructor(private readonly boardService: BoardService) {}
   
@@ -21,7 +21,6 @@ import {
   
     @Get()
     async list() {
-      console.log(11)
       const ret = await this.boardService.listBoard();
       return ret;
     }

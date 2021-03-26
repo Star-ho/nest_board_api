@@ -7,6 +7,6 @@ RUN npm install
 
 RUN npm i -g @nestjs/cli
 
-RUN npm install @nestjs/typeorm typeorm mysql2 @types/redis redis
+RUN npm install @nestjs/typeorm typeorm mysql2 @types/redis redis  express-session express-mysql-session
 
 CMD [ "npm", "run", "start:dev" ]

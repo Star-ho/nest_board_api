@@ -11,7 +11,6 @@ export class BoardService {
   ) {}
 
   createBoardFunc(createBoard: boardInterface) {
-    console.log(createBoard)
     return this.board.create(createBoard).save();
   }
 

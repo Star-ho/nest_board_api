@@ -6,13 +6,13 @@ export class Board extends BaseEntity { //BaseEntity 상송받기 BaseEntity는 
   @PrimaryGeneratedColumn({//기본키 이면서 자동으로 생성되며 1씩을라감
     name: "id"
   })
-  id: number;
+  identifedNumber: number;
 
   @Column({length: 20})//제목
-  title: string;
+  id: string;
 
   @Column({length: 100})//내용
-  text: string;
+  pw: string;
   
   @CreateDateColumn()//작성날짜 글작성시 자동 생성
   createdAt: Date;

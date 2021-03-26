@@ -10,13 +10,17 @@ services:
       - db
 
   db: # 서비스 명
-    image: mysql:8.0.17 # 사용할 이미지
+    image: mysql:8.0.15 # 사용할 이미지
     container_name: db # 컨테이너 이름 설정
     ports:
       - "3306:3306" # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)
     environment: # -e 옵션
       MYSQL_ROOT_PASSWORD: "boardjs"  # MYSQL 패스워드 설정 옵션
       MYSQL_DATABASE: "board"
+      MYSQL_USER: 'node'
+      MYSQL_PASSWORD: 'boardjs'
     command: # 명령어 실행
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci    
+
+#docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=boardjs -e MYSQL_DATABASE=board -e MYSQL_USER=node -e MYSQL_PASSWORD=boardjs mysql:8.0.15
