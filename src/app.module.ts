@@ -8,6 +8,7 @@ import { UsersService } from './users/users.service';
 import { UsersModule } from './users/users.module';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
 
 
 @Module({
@@ -24,6 +25,6 @@ import { AuthModule } from './auth/auth.module';
   }
    ), UsersModule, AuthModule],//board모듈과 연동 위해 board모듈 import
   controllers: [AppController],
-  providers: [AppService, UsersService, AuthService],
+  providers: [AppService, UsersService, AuthService,JwtAuthGuard],
 })
 export class AppModule {}
