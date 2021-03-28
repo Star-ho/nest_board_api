@@ -2,12 +2,11 @@ version: '3'
 services:
   app:
     container_name: starho
-    restart: always
     build: .
     ports:
       - '3000:3000'
-    depends_on:
-      - db
+    depends_on:depends_on: #특정 컨테이너에 대한 의존 관계를 나타냄, 
+      - db #이 항목에 명시된 컨테이너가 먼저 생성되고 실행됩니다. 
 
   db: # 서비스 명
     image: mysql:8.0.15 # 사용할 이미지
@@ -16,11 +15,12 @@ services:
       - "3306:3306" # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)
     environment: # -e 옵션
       MYSQL_ROOT_PASSWORD: "boardjs"  # MYSQL 패스워드 설정 옵션
-      MYSQL_DATABASE: "board"
+      MYSQL_DATABASE: "board_api"
       MYSQL_USER: 'node'
       MYSQL_PASSWORD: 'boardjs'
     command: # 명령어 실행
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci    
       - --default-authentication-plugin=mysql_native_password
-#docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=boardjs -e MYSQL_DATABASE=board -e MYSQL_USER=node -e MYSQL_PASSWORD=boardjs mysql --default-authentication-plugin=mysql_native_password
+      
+#docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=boardjs -e MYSQL_DATABASE=board_api -e MYSQL_USER=node -e MYSQL_PASSWORD=boardjs mysql --default-authentication-plugin=mysql_native_password

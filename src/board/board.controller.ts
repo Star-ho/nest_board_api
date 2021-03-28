@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, UseGuards } from "@nestjs/common";
+import { Controller, Post, Body, Get, Param, UseGuards,Request } from "@nestjs/common";
   import { boardInterface } from "./dto.interface";
   import { BoardService } from "./board.service";
   import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -9,9 +9,8 @@ import { Controller, Post, Body, Get, Param, UseGuards } from "@nestjs/common";
   
   @UseGuards(JwtAuthGuard)
   @Post()
-    async create(@Body() createBoard: boardInterface) {
-      console.log(createBoard)
-      const ret = await this.boardService.createBoardFunc(createBoard);
+    async create(@Request() req,@Body() createBoard: boardInterface) {
+      const ret = await this.boardService.createBoardFunc(req.user,createBoard);
       return ret;
     }
   
@@ -29,14 +28,15 @@ import { Controller, Post, Body, Get, Param, UseGuards } from "@nestjs/common";
 
     @UseGuards(JwtAuthGuard)
     @Post("update/:id")
-    async update(@Param("id") boardId: number,@Body() updateData: boardInterface) {
-      const ret = await this.boardService.updateBoard(boardId,updateData);
+    async update(@Request() req,@Param("id") boardId: number,@Body() updateData: boardInterface) {
+      const ret = await this.boardService.updateBoard(req.user,boardId,updateData);
       return ret;
     }
+    
     @UseGuards(JwtAuthGuard)
     @Get("delete/:id")
-    async delete(@Param("id") boardId: number) {
-      const ret = await this.boardService.removeBoard(boardId);
+    async delete(@Request() req,@Param("id") boardId: number) {
+      const ret = await this.boardService.removeBoard(req.user,boardId);
       return ret;
     }
   }

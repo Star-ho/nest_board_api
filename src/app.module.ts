@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BoardModule } from './board/board.module';
 import { Board } from "./entity/board.entity"
+import { Users } from "./entity/users.entity"
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UsersService } from './users/users.service';
 import { UsersModule } from './users/users.module';
@@ -18,12 +19,12 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
     "port": 3306,
     "username": "node", 
     "password": "boardjs",
-    "database": "board",
-    "entities": [Board], 
+    "database": "board_api",
+    "entities": [Board,Users], 
     "logging": true, 
     "synchronize": true 
   }
-   ), UsersModule, AuthModule],//board모듈과 연동 위해 board모듈 import
+   ), UsersModule, AuthModule],//다른 모듈과 의존성을 위한 import
   controllers: [AppController],
   providers: [AppService, UsersService, AuthService,JwtAuthGuard],
 })
