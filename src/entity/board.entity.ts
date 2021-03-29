@@ -18,7 +18,7 @@ export class Board extends BaseEntity { //BaseEntity 상송받기 BaseEntity는 
   @CreateDateColumn()//작성날짜 글작성시 자동 생성
   createdAt: Date;
 
-  @Column()
+  @ManyToOne(type=>Users,Users=>Users.username,{ onDelete: 'CASCADE' })
   createUser : String
 }
 

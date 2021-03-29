@@ -12,7 +12,8 @@ export class BoardService {
   ) {}
 
   createBoardFunc(user:any,createBoard: boardInterface) {
-    return this.board.create({...createBoard,createUser : user.userId}).save();
+    createBoard.createUser=user.userId
+    return this.board.create({...createBoard).save();
   }
 
   listBoard() {

@@ -12,8 +12,16 @@ export class Users extends BaseEntity { //BaseEntity 상속받기 BaseEntity는 
 
   @Column({length: 10})//ID
   id: string;
+
+  @OneToMany(
+    (type)=>Board,
+    Board=>Board.createUser
+  )
+  boards:Board[]
+  
   @Column({length: 10})//ID
   username: string;
+
   @Column({length: 10})//pw
   password: string;
   
