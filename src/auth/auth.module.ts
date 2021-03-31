@@ -11,7 +11,7 @@ import { JwtStrategy } from './jwt.strategy'
   imports: [
     UsersModule,
     PassportModule,
-    JwtModule.register({
+    JwtModule.register({//Jwt관련 설정, jwt secret, 유효기간(1시간) 설정
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '3600s' },
     }),

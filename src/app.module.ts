@@ -15,7 +15,7 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
 @Module({
   imports: [BoardModule,TypeOrmModule.forRoot({//DB와 연결을 위한 모듈 임포트
     "type": "mysql", 
-    "host": "localhost", 
+    "host": process.env.DB_Host||"localhost", 
     "port": 3306,
     "username": "node", 
     "password": "boardjs",

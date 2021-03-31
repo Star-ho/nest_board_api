@@ -13,7 +13,7 @@ export class Users extends BaseEntity { //BaseEntity 상속받기 BaseEntity는 
   @Column({length: 10})//ID
   id: string;
 
-  @OneToMany(
+  @OneToMany(//Board테이블과 관계 설정
     (type)=>Board,
     Board=>Board.createUser
   )
@@ -22,7 +22,7 @@ export class Users extends BaseEntity { //BaseEntity 상속받기 BaseEntity는 
   @Column({length: 10})//ID
   username: string;
 
-  @Column({length: 10})//pw
+  @Column({length: 100})//pw
   password: string;
   
   @CreateDateColumn()//생성날짜

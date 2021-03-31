@@ -12,17 +12,16 @@ export class AppController {
   getHello(@Req() request: Request): string {
     return this.appService.toBoardService();//toBoardService 호출
   }
-  
+  //로그인
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async login(@Request() req) {
     return this.authService.login(req.user);
   }
-
+  //로그인 확인을 위한 profile
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
-    console.log(req)
     return req.user;
   }
 }

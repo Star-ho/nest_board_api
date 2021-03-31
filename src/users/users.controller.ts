@@ -6,6 +6,7 @@ import { UsersService } from "./users.service";
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
+    //회원가입
   @Post('signup')
     async create(@Body() signup: usersInterface) {
       const { password, ...ret } = await this.usersService.signup(signup);

@@ -11,19 +11,23 @@ export class BoardService {
     @InjectRepository(Board) private readonly board: Repository<Board>
   ) {}
 
+  //게시글 생성
   createBoardFunc(user:any,createBoard: boardInterface) {
     createBoard.createUser=user.userId
-    return this.board.create({...createBoard).save();
+    return this.board.create(createBoard).save();
   }
 
+  //전체 게시글 조회
   listBoard() {
     return this.board.find({ select: ["id","title"], order: { createdAt: -1 } });
   }
 
+  //하나의 게시글 조회
   detailBoard(id: number) {
     return this.board.findOne(id);
   }
 
+  //게시글 변경
   async updateBoard(user:any,id: number,updateData:boardInterface) {
     let property= await this.board.findOne(id);
     if(property.createUser!=user.userId){
@@ -34,6 +38,7 @@ export class BoardService {
     return this.board.save(property);
   }
 
+  //게시글 삭제 
   async removeBoard(user:any,id: number) {
     let property= await this.board.findOne(id);
     if(property.createUser!=user.userId){
