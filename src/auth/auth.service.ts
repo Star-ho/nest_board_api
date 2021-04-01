@@ -10,7 +10,7 @@ export class AuthService {
     private jwtService: JwtService
   ) {}
 
-    //로그인시 users DB에서 username으로 username에 맞는 userpassword 찾고, 찾은 userpassword와 받은 패스워드 비교
+  //로그인시 users DB에서 username으로 username에 맞는 userpassword 찾고, 찾은 userpassword와 받은 패스워드 비교
   async validateUser(id: string, pass: string): Promise<any> {
     const user = await this.usersService.findOne(id);
     if (user  && await bcrypt.compare(pass,user.password)) {

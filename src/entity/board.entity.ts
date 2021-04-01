@@ -2,9 +2,11 @@ import { Entity, PrimaryGeneratedColumn,BaseEntity, Column, CreateDateColumn,Man
 import { Users } from "./users.entity"
 
 @Entity()//테이블 정의시 사용
-export class Board extends BaseEntity { //BaseEntity 상송받기 BaseEntity는 hasId, save, remove와 같은 기본 메서드 제공
+export class Board extends BaseEntity { 
+  //BaseEntity 상속
+  //BaseEntity는 hasId, save, remove와 같은 기본 메서드 제공
 
-  @PrimaryGeneratedColumn({//기본키 이면서 자동으로 생성되며 1씩을라감
+  @PrimaryGeneratedColumn({//기본 자동으로 생성 1씩 증가
     name: "id"
   })
   id: number;
@@ -18,7 +20,8 @@ export class Board extends BaseEntity { //BaseEntity 상송받기 BaseEntity는 
   @CreateDateColumn()//작성날짜 글작성시 자동 생성
   createdAt: Date;
 
-  @ManyToOne(type=>Users,Users=>Users.username,{ onDelete: 'CASCADE' })//Users테이블과 관계 생성
+  @ManyToOne(type=>Users,Users=>Users.username,
+    { onDelete: 'CASCADE' })//Users테이블과 관계 생성
   createUser : String
 }
 

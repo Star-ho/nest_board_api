@@ -13,3 +13,6 @@ RUN npm install --save @nestjs/passport passport passport-local @types/passport-
 
 
 CMD [ "npm", "run", "start" ]
+
+
+

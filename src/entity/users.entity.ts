@@ -2,10 +2,10 @@ import { Entity, PrimaryGeneratedColumn,BaseEntity, Unique, Column, CreateDateCo
 import { Board } from "./board.entity"
 
 @Unique(["id"])
-@Entity()//테이블 정의시 사용
-export class Users extends BaseEntity { //BaseEntity 상속받기 BaseEntity는 hasId, save, remove와 같은 기본 메서드 제공
+@Entity()
+export class Users extends BaseEntity { 
 
-  @PrimaryGeneratedColumn({//기본키 이면서 자동으로 생성되며 1씩을라감
+  @PrimaryGeneratedColumn({
   name: "identification"
   })
   identifedNumber: number;

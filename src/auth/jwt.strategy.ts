@@ -7,7 +7,8 @@ import { jwtConstants } from './constants';
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),//요청받은 jwt를 어떻게 처리할것인가
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      //jwt를 Auth헤더에서 토큰 추출
       ignoreExpiration: false,
       secretOrKey: jwtConstants.secret,
     });
@@ -15,7 +16,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   //토큰에 있는 userId리턴
   async validate(payload: any) {
-    console.log(payload)
     return { userId: payload.userId };
   }
 }
