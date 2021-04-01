@@ -4,13 +4,12 @@ services:
     container_name: starho
     build: .
     ports:
-      - '3000:3000'
+      - '3001:3000'
     depends_on: #특정 컨테이너에 대한 의존 관계를 나타냄, 
       - db #이 항목에 명시된 컨테이너가 먼저 생성되고 실행됩니다. 
     environment:
       DB_Host: "db"
       jwtSecret: "1gasfwtg"
-      nestport: 80
 
   db: # 서비스 명
     image: mysql:8.0.15 # 사용할 이미지
