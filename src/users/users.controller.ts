@@ -9,7 +9,15 @@ export class UsersController {
     //회원가입
   @Post('signup')
     async create(@Body() signup: usersInterface) {
-      const { password, ...ret } = await this.usersService.signup(signup);
+      if(!("password" in signup)) return JSON.stringify({msg: 'password를 입력해주세요'})
+      if(!("id" in signup)) return JSON.stringify({ msg: "id를 입력해주세요" })
+      if(!("username" in signup)) return JSON.stringify({ msg: "username를 입력해주세요" })
+      const ret = await this.usersService.signup(signup)
+      .catch((err)=>{
+        if(err.code=='ER_DUP_ENTRY')
+          return JSON.stringify({ msg:"이미 존재하는 아이디 입니다"})
+        return JSON.stringify({ msg:"error!"})
+      })
       return ret;
     }
   }

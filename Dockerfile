@@ -12,4 +12,4 @@ RUN npm install @nestjs/typeorm typeorm mysql2 @types/redis redis  express-sessi
 RUN npm install --save @nestjs/passport passport passport-local @types/passport-local @nestjs/jwt passport-jwt @types/passport-jwt
 
 
-CMD [ "npm", "run", "start:dev" ]
+CMD [ "npm", "run", "start" ]

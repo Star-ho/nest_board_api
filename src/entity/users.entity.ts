@@ -10,7 +10,7 @@ export class Users extends BaseEntity { //BaseEntity 상속받기 BaseEntity는 
   })
   identifedNumber: number;
 
-  @Column({length: 10})//ID
+  @Column({length: 20,nullable:false})//ID
   id: string;
 
   @OneToMany(//Board테이블과 관계 설정
@@ -19,10 +19,10 @@ export class Users extends BaseEntity { //BaseEntity 상속받기 BaseEntity는 
   )
   boards:Board[]
   
-  @Column({length: 10})//ID
+  @Column({length: 10,nullable:false})//ID
   username: string;
 
-  @Column({length: 100})//pw
+  @Column({length: 100,nullable:false})//pw
   password: string;
   
   @CreateDateColumn()//생성날짜

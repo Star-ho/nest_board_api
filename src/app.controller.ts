@@ -16,6 +16,7 @@ export class AppController {
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async login(@Request() req) {
+    console.log(this.authService.login(req.user))
     return this.authService.login(req.user);
   }
   //로그인 확인을 위한 profile
