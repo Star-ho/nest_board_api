@@ -10,6 +10,7 @@ services:
     environment:
       DB_Host: "db"
       jwtSecret: "1gasfwtg"
+      nestport: 80
 
   db: # 서비스 명
     image: mysql:8.0.15 # 사용할 이미지
