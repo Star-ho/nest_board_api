@@ -1,5 +1,6 @@
-import { Controller,Get,Req, Request, Post, UseGuards } from '@nestjs/common';
+import { Controller, Req, Request, Get, Post, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { Response as Res } from 'express';
 import { AppService } from './app.service';
 import { LocalAuthGuard } from './auth/local-auth.guard';
 import { AuthService } from './auth/auth.service';
@@ -16,9 +17,17 @@ export class AppController {
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async login(@Request() req) {
+    console.log(req)
     return this.authService.login(req.user);
   }
-  
+  @Get('/login')
+  async loginPage(@Request() req) {
+    return this.appService.tologinPage();//로그인페이지 호출
+  }
+  @Get('/signup')
+  async signupPage(@Request() req) {
+    return this.appService.toSignUp();//회원가입 페이지
+  }
   //로그인 확인을 위한 profile
   @UseGuards(JwtAuthGuard)
   @Get('profile')

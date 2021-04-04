@@ -9,6 +9,7 @@ export class UsersController {
   //회원가입
   @Post('signup')
     async create(@Body() signup: usersInterface) {
+      console.log(signup)
       if(!("password" in signup)) 
         return JSON.stringify({msg: 'password를 입력해주세요'})
       if(!("id" in signup)) 
