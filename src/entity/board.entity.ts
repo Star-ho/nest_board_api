@@ -20,9 +20,9 @@ export class Board extends BaseEntity {
   @CreateDateColumn()//작성날짜 글작성시 자동 생성
   createdAt: Date;
 
-  @ManyToOne(type=>Users,Users=>Users.identifedNumber,
+  @ManyToOne(type=>Users,Users=>Users.boards,
     { onDelete: 'CASCADE' })//Users테이블과 관계 생성
-    createUser : String;
+    user : Users;
 }
 
 export default Board;

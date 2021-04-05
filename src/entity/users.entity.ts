@@ -15,7 +15,7 @@ export class Users extends BaseEntity {
 
   @OneToMany(//Board테이블과 관계 설정
     (type)=>Board,
-    Board=>Board.createUser
+    Board=>Board.user
   )
   boards:Board[]
   

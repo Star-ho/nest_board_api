@@ -11,8 +11,8 @@ export class BoardService {
   ) {}
 
   //게시글 생성
-  createBoardFunc(user:any,createBoard: boardInterface) {
-    createBoard.createUserIdentifedNumber=user.userId
+  createBoardFunc(user:any,createBoard: Board) {
+    createBoard.user=user.userId
     console.log(createBoard)
     return this.board.create(createBoard).save();
   }
@@ -28,21 +28,21 @@ export class BoardService {
   }
 
   //게시글 변경
-  async updateBoard(user:any,id: number,updateData:boardInterface) {
-    let property= await this.board.findOne(id);
-    console.log(property,user.userId)
-    if(property.createUser!=user.userId){
+  async updateBoard(user:any,id: number,updateData:Board) {
+    let property= await this.board.findOne({id:id},{relations:["user"]});
+    if(property.user.identifedNumber!=user.userId){
       throw new UnauthorizedException();
     }
     property.title=updateData.title;
     property.text=updateData.text;
-    return this.board.save(property);
+    let {text,title,...ret}= await this.board.save(property)
+    return {text, title} ;
   }
 
   //게시글 삭제 
   async removeBoard(user:any,id: number) {
-    let property= await this.board.findOne(id);
-    if(property.createUser!=user.userId){
+    let property= await this.board.findOne({id:id},{relations:["user"]});
+    if(property.user.identifedNumber!=user.userId){
       throw new UnauthorizedException();
     }
     this.board.delete(id)

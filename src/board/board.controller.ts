@@ -1,7 +1,8 @@
 import { Controller, Post, Body, Get, Param, UseGuards,Request } from "@nestjs/common";
-  import { boardInterface } from "./dto.interface";
+import Board from "../entity/board.entity";
   import { BoardService } from "./board.service";
   import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+  import { boardInterface } from "./dto.interface";
 
   @Controller('board')//컨트롤러 생성
   export class BoardController  {
@@ -10,7 +11,7 @@ import { Controller, Post, Body, Get, Param, UseGuards,Request } from "@nestjs/c
   //게시글 생성
   @UseGuards(JwtAuthGuard)
   @Post()
-  async create(@Request() req,@Body() createBoard: boardInterface) {
+  async create(@Request() req,@Body() createBoard: Board) {
     const ret = await this.boardService.createBoardFunc(req.user,createBoard);
     return ret;
   }
@@ -32,7 +33,7 @@ import { Controller, Post, Body, Get, Param, UseGuards,Request } from "@nestjs/c
   //id에 해당하는 게시글 업데이트, jwt로 인증하여 IdentificationNuber가 같아야 변경가능
   @UseGuards(JwtAuthGuard)
   @Post("update/:id")
-  async update(@Request() req,@Param("id") boardId: number,@Body() updateData: boardInterface) {
+  async update(@Request() req,@Param("id") boardId: number,@Body() updateData: Board) {
     const ret = await this.boardService.updateBoard(req.user,boardId,updateData);
     return ret;
   }
