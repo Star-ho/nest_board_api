@@ -1,6 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import Board from "../entity/board.entity";
-import { boardInterface } from "./dto.interface";
 import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 
