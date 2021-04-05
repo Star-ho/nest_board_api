@@ -27,6 +27,7 @@
     "@nestjs/passport": "^7.1.5",
     "@nestjs/platform-express": "^7.6.13",
     "@nestjs/typeorm": "^7.1.5",
+    "@types/passport-jwt": "^3.0.5",
     "@types/redis": "^2.8.28",
     "bcrypt": "^5.0.1",
     "express-mysql-session": "^2.1.5",
@@ -38,11 +39,11 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "pg": "^8.5.1",
-    "redis": "^3.0.2",
+    "redis": "^3.1.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.6",
-    "typeorm": "^0.2.31"
+    "typeorm": "^0.2.32"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.5.6",

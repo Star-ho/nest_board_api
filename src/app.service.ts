@@ -60,7 +60,7 @@ export class AppService {
               "Content-Type": "application/json",
             },
             body:JSON.stringify({
-            "username":id,
+            "id":id,
             "password":pw
         }),
       })

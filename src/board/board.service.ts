@@ -3,7 +3,6 @@ import Board from "../entity/board.entity";
 import { boardInterface } from "./dto.interface";
 import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Users } from "../entity/users.entity";
 
 @Injectable()
 export class BoardService {
@@ -13,7 +12,8 @@ export class BoardService {
 
   //게시글 생성
   createBoardFunc(user:any,createBoard: boardInterface) {
-    createBoard.createUser=user.userId
+    createBoard.createUserIdentifedNumber=user.userId
+    console.log(createBoard)
     return this.board.create(createBoard).save();
   }
 
@@ -30,6 +30,7 @@ export class BoardService {
   //게시글 변경
   async updateBoard(user:any,id: number,updateData:boardInterface) {
     let property= await this.board.findOne(id);
+    console.log(property,user.userId)
     if(property.createUser!=user.userId){
       throw new UnauthorizedException();
     }
