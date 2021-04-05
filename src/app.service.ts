@@ -12,37 +12,23 @@ export class AppService {
       margin:1px;
     } 
     </style>
-    </head><body><a href="/board/">board service</a>
+    </head><body><a href="/board/list">board service</a>
     <a href="/login">login</a> 
     <a href="/signup">signup</a> 
-    <a href="/profile">profile</a> 
+    <a href="#" onClick="profile()" >profile</a> 
+    <script>
+      function profile(){
+        fetch("/profile",{
+          method : "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization" : localStorage.getItem('token')
+        },
+      })
+      .then(console.log(11))//
+      }
+    </script>
      </body>
-
-     <p>아직 프론트가 완성되지 않았습니다.... 기능 확인을 위해 아래의 curl을 사용하시기 바랍니다....</p>
-     <br>
-     <p>회원가입 <br>
-     curl --location --request POST 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaws.com/users/signup' \ --header 'Content-Type: application/json' \ --data-raw '{  "id": "[아이디]",  "username": "[유저이름]",  "password": "[비밀번호]" }'</p>
-     <br>
-<p>로그인<br>
-curl --location --request POST 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaws.com/auth/login' \ --header 'Content-Type: application/json' \ --data-raw '{   "id": "[아이디]",  "password": "[비밀번호]"  }'</p>
-<br>
-<p> 로그인 확인 <br>
-curl --location --request GET 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaws.com/profile/' \ --header 'Authorization: Bearer [토큰]' \ --header 'Content-Type: application/json'</p>
-<br>
-<p> 전체 게시판 조회<br>
-curl --location --request GET 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaws.com/board/'</p>
-<br>
-<p>게시글 조회 <br>
-curl --location --request GET 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaws.com/board/[게시글 ID]'</p>
-</p></p>
-<p>게시판 글쓰기 <br>
-curl --location --request POST 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaws.com/board/' \ --header 'Authorization: Bearer [토큰]' \ --header 'Content-Type: application/json' \ --data-raw '{  "title":"[제목]",  "text":"[내용]" }'</p>
-<br>
-<p> 게시판 업데이트<br>
-curl --location --request POST 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaws.com/board/update/[게시글 ID]' \ --header 'Authorization: Bearer [토큰]' \ --header 'Content-Type: application/json' \ --data-raw '{  "title":"[제목]",  "text":"[내용]" }'</p>
-<br>
-<p> 게시판 삭제 <br>
-curl --location --request GET 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaws.com/board/delete/[게시글 ID]' \ --header 'Authorization: Bearer [토큰]' \ --header 'Content-Type: application/json'</p>
      </html>`;
   }  
   toSignUp(): string {
@@ -56,7 +42,6 @@ curl --location --request GET 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaw
         let id = document.getElementById("id").value;
         let pw = document.getElementById("pw").value;
         let username = document.getElementById("username").value;
-        console.log(id,pw,username)
         fetch("/users/signup",{
             method : "POST",
             headers: {
@@ -85,7 +70,6 @@ curl --location --request GET 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaw
       <input type="text" placeholder="아이디" id="id" />
       <input type="password" placeholder="비밀번호" className="password_input" id="pw" />
       <input type="button" onclick="login()" id="submit" value="로그인" />
-      <? header("12311111111123: 121111111111111113"); ?>   
       <script>
       function login(){
         let id = document.getElementById("id").value;
@@ -100,12 +84,13 @@ curl --location --request GET 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaw
             "password":pw
         }),
       })
-        .then(res=>res.json())
-        .then(res=>{
-          console.log(res)
-          if("access_token" in res){
-            alert("로그인성공")
-            //location.href='/'
+      .then(res=>res.json())
+      .then(res=>{
+        console.log(res)
+        if(res.success){
+          localStorage.setItem("token",res.token)
+          alert("로그인성공")
+          location.href='/'
           }
         })
       }

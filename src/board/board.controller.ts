@@ -8,29 +8,41 @@ import Board from "../entity/board.entity";
   export class BoardController  {
     constructor(private readonly boardService: BoardService) {}
   
+  
+  @UseGuards(JwtAuthGuard)
+  @Get("create")//게시글 생성 페이지
+  async createboard(@Request() req,@Body() createBoard: Board) {
+    const ret = await this.boardService.createBoardFunc(req.user,createBoard);
+    return ret;
+  }
   //게시글 생성
   @UseGuards(JwtAuthGuard)
-  @Post()
+  @Post("create")
   async create(@Request() req,@Body() createBoard: Board) {
     const ret = await this.boardService.createBoardFunc(req.user,createBoard);
     return ret;
   }
 
   //전체 게시글 조회
-  @Get()
-  async list() {
-    const ret = await this.boardService.listBoard();
-    return ret;
+  @Get('list')
+  list() {
+    return this.boardService.listBoard();;
   }
 
   //id에 해당하는 게시글 조회
   @Get(":id")
   async detail(@Param("id") boardId: number) {
-    const ret = await this.boardService.detailBoard(boardId);
-    return ret;
+    return await this.boardService.detailBoard(boardId);
   }
 
   //id에 해당하는 게시글 업데이트, jwt로 인증하여 IdentificationNuber가 같아야 변경가능
+  @UseGuards(JwtAuthGuard)
+  @Get("update/:id")
+  async updateboard(@Request() req,@Param("id") boardId: number,@Body() updateData: Board) {
+    const ret = await this.boardService.updateBoard(req.user,boardId,updateData);
+    return ret;
+  }
+
   @UseGuards(JwtAuthGuard)
   @Post("update/:id")
   async update(@Request() req,@Param("id") boardId: number,@Body() updateData: Board) {
