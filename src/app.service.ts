@@ -3,35 +3,46 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class AppService {
   toBoardService(): string {
-    return `<html><body><a href="/board/">board service</a>
+    return `<html><head>
+    <style type="text/css">
+    p {
+      margin:0px;
+    }
+    br {
+      margin:1px;
+    } 
+    </style>
+    </head><body><a href="/board/">board service</a>
     <a href="/login">login</a> 
     <a href="/signup">signup</a> 
     <a href="/profile">profile</a> 
      </body>
 
      <p>아직 프론트가 완성되지 않았습니다.... 기능 확인을 위해 아래의 curl을 사용하시기 바랍니다....</p>
-     <p>회원가입 curl --location --request POST 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaws.com/users/signup' \ --header 'Content-Type: application/json' \ --data-raw '{  "id": "[아이디]",  "username": "[유저이름]",  "password": "[비밀번호]" }'</p>
-
-<p>로그인 
-<p>curl --location --request POST 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaws.com/auth/login' \ --header 'Content-Type: application/json' \ --data-raw '{   "id": "[아이디]",  "password": "[비밀번호]"  }'</p>
-
-<p> 로그인 확인 </p>
-<p>curl --location --request GET 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaws.com/profile/' \ --header 'Authorization: Bearer [토큰]' \ --header 'Content-Type: application/json'</p>
-
-<p> 전체 게시판 조회</p> 
-<p>curl --location --request GET 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaws.com/board/'</p>
-
-<p>게시글 조회 </p>
-<p>curl --location --request GET 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaws.com/board/[게시글 ID]'</p>
-
-<p>게시판 글쓰기 </p>
-<p>curl --location --request POST 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaws.com/board/' \ --header 'Authorization: Bearer [토큰]' \ --header 'Content-Type: application/json' \ --data-raw '{  "title":"[제목]",  "text":"[내용]" }'</p>
-
-<p> 게시판 업데이트 </p>
-<p>curl --location --request POST 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaws.com/board/update/[게시글 ID]' \ --header 'Authorization: Bearer [토큰]' \ --header 'Content-Type: application/json' \ --data-raw '{  "title":"[제목]",  "text":"[내용]" }'</p>
-
-<p> 게시판 삭제 </p>
-<p>curl --location --request GET 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaws.com/board/delete/[게시글 ID]' \ --header 'Authorization: Bearer [토큰]' \ --header 'Content-Type: application/json'</p>
+     <br>
+     <p>회원가입 <br>
+     curl --location --request POST 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaws.com/users/signup' \ --header 'Content-Type: application/json' \ --data-raw '{  "id": "[아이디]",  "username": "[유저이름]",  "password": "[비밀번호]" }'</p>
+     <br>
+<p>로그인<br>
+curl --location --request POST 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaws.com/auth/login' \ --header 'Content-Type: application/json' \ --data-raw '{   "id": "[아이디]",  "password": "[비밀번호]"  }'</p>
+<br>
+<p> 로그인 확인 <br>
+curl --location --request GET 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaws.com/profile/' \ --header 'Authorization: Bearer [토큰]' \ --header 'Content-Type: application/json'</p>
+<br>
+<p> 전체 게시판 조회<br>
+curl --location --request GET 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaws.com/board/'</p>
+<br>
+<p>게시글 조회 <br>
+curl --location --request GET 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaws.com/board/[게시글 ID]'</p>
+</p></p>
+<p>게시판 글쓰기 <br>
+curl --location --request POST 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaws.com/board/' \ --header 'Authorization: Bearer [토큰]' \ --header 'Content-Type: application/json' \ --data-raw '{  "title":"[제목]",  "text":"[내용]" }'</p>
+<br>
+<p> 게시판 업데이트<br>
+curl --location --request POST 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaws.com/board/update/[게시글 ID]' \ --header 'Authorization: Bearer [토큰]' \ --header 'Content-Type: application/json' \ --data-raw '{  "title":"[제목]",  "text":"[내용]" }'</p>
+<br>
+<p> 게시판 삭제 <br>
+curl --location --request GET 'ec2-54-180-149-67.ap-northeast-2.compute.amazonaws.com/board/delete/[게시글 ID]' \ --header 'Authorization: Bearer [토큰]' \ --header 'Content-Type: application/json'</p>
      </html>`;
   }  
   toSignUp(): string {
