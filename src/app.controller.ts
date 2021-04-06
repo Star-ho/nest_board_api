@@ -34,5 +34,9 @@ export class AppController {
     const user= await this.userService.findUsername(req.user.userId)
     return {"username":user.username};
   }
+  @Get('main.css')
+  async mainCss() {
+    return this.appService.mainCssService();
+  }
 }
 

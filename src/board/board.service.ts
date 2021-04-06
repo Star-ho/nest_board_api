@@ -10,7 +10,10 @@ export class BoardService {
   ) {}
 
   createboard() {
-    return `<html><body>
+    return `<html><head>
+    <title>글쓰기</title>
+    </head>
+    <body>
     <input type="text" placeholder="제목" id="title" />
     <input type="text" placeholder="내용" id="text" />
     <input type="button" onclick="createBoard()" id="submit" value="생성" />
@@ -51,14 +54,18 @@ export class BoardService {
     
   //전체 게시글 조회
   async listBoard() {
-    return await this.board.find({ select: ["id","title"], order: { createdAt: 1 } });
+    return await this.board.find({ select: ["id","title","createdAt"], order: { createdAt: 1 } });
   }
 
   //하나의 게시글 조회
   async detailBoard(id: number) {
     const contents =  await this.board.findOne({id:id},{relations:["user"]});
     const date=new Date(contents.createdAt);
-    let ret=` <a href="#" onClick="toUpdatePage()">수정</a>
+    let ret=` <html><head>
+    <title>글쓰기</title>
+    </head>
+    <body>
+    <a href="#" onClick="toUpdatePage()">수정</a>
               <a href="#" onClick="deletePage()" >삭제</a>
               <a href="javascript:history.back()">뒤로가기</a><br><br>
     제목 : ${contents.title} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 작성일 ${date.getFullYear()}.${date.getMonth()}.${date.getDate()}<br><br><br>
@@ -96,11 +103,11 @@ export class BoardService {
         }else{
           alert("작성자만 수정 가능합니다")
         }
-
-        
     })
   }
     </script>
+    </body>
+    </html>
     `
     return ret;
   }
@@ -108,7 +115,9 @@ export class BoardService {
 
   async updateBoardPage(id:number) {
     const contents = await this.board.findOne({id:id});
-    return `<html><body>
+    return `<html><head>
+    <title>글쓰기</title>
+    </head><body>
     <input type="text" value="${contents.title}" id="title" />
     <input type="text" value="${contents.text}" id="text" />
     <input type="button" onclick="updateBoard()" id="submit" value="수정" />
