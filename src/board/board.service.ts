@@ -51,29 +51,7 @@ export class BoardService {
     
   //전체 게시글 조회
   async listBoard() {
-    const lists= await this.board.find({ select: ["id","title"], order: { createdAt: 1 } });
-    let ret=`<a href="#" onClick="toCreatePage()" >글쓰기</a>&nbsp&nbsp <a href="/" >홈으로</a><br><br>
-    <script>
-    function toCreatePage(){
-      fetch("/profile",{
-        method : "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization" : localStorage.getItem('token')
-        }
-        })
-      .then(function (res){
-        if(res.status==200){
-          location.href='/board/create';
-        }else{
-        alert("권한이 없습니다")
-      }
-    })
-  }
-    </script>
-    `
-    for(let i=0;i<lists.length;i++)ret+=`${i+1}.  <a href="/board/${lists[i].id}">${lists[i].title}</a><br>`;
-    return ret;
+    return await this.board.find({ select: ["id","title"], order: { createdAt: 1 } });
   }
 
   //하나의 게시글 조회

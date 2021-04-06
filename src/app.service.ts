@@ -4,29 +4,89 @@ import { Injectable } from '@nestjs/common';
 export class AppService {
   toBoardService(): string {
     return `<html><head>
-    <style type="text/css">
-    p {
-      margin:0px;
-    }
-    br {
-      margin:1px;
-    } 
-    </style>
-    </head><body><a href="/board/list">board service</a>
-    <a href="/login">login</a> 
-    <a href="/signup">signup</a> 
-    <a href="#" onClick="profile()" >profile</a> 
+    <title>게시판</title>
+    <script src="//code.jquery.com/jquery-3.3.1.js"></script>
+
+    </head><body><a href="/board/list">게시판</a>
+    <a href="/login" id='login' >로그인</a> 
+    <a href="/signup" id='signup' >회원가입</a> 
+    <a href="#" onClick="profile()" id='profile' >프로필</a> 
+
+    <a href="#" onClick="toCreatePage()" >글쓰기</a>&nbsp&nbsp <a href="/" >홈으로</a><br><br>
+    
+    <table id="table">
+    </table>
     <script>
+    function toCreatePage(){
+      fetch("/profile",{
+        method : "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization" : localStorage.getItem('token')
+        }
+        })
+      .then(function (res){
+        if(res.status==200){
+          location.href='/board/create';
+        }else{
+        alert("권한이 없습니다")
+      }
+    })
+  }
+  (async () =>{
+    fetch("/board/list",{
+      method : "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization" : localStorage.getItem('token')
+      }
+      })
+    .then(res=>res.json())
+    .then(res=>{
+      console.log(res)
+      for (let i = 0; i < res.length; i++) {
+        let tr = document.createElement("tr");
+        let td = document.createElement("td");
+        td.append(res.id)
+        td = document.createElement("td").append(res.title);
+        tr.append(td)
+        $('#table').append(tr)
+      }
+
+    })
+  })()
+  </script>
+
+
+    <script>
+    (async () => {
+      let res = await fetch("/profile",{
+        method : "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization" : localStorage.getItem('token')
+        },
+      })
+      if(res.user){  
+        $('#signup').remove();
+        $('#login').remove();
+      }else{
+        $('#profile').remove()
+      }
+    })()
       async function profile(){
-        await fetch("/profile",{
+      let res =  await fetch("/profile",{
           method : "GET",
           headers: {
             "Content-Type": "application/json",
             "Authorization" : localStorage.getItem('token')
         },
       })
-      .then(res => res.json())
-      .then(res => alert("안녕하세요 "+res.username+"님"))
+      if(res.user){
+        alert("안녕하세요 "+res.user+"님");
+      }else{
+        alert("로그인이 필요합니다")
+      }
       }
     </script>
      </body>
