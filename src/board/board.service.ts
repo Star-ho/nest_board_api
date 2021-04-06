@@ -12,7 +12,7 @@ export class BoardService {
   createboard() {
     return `<html><body>
     <input type="text" placeholder="제목" id="title" />
-    <input type="password" placeholder="내용" className="password_input" id="text" />
+    <input type="text" placeholder="내용" id="text" />
     <input type="button" onclick="createBoard()" id="submit" value="생성" />
     <script>
     function createBoard(){
@@ -32,10 +32,9 @@ export class BoardService {
     .then(res=>res.json())
     .then(res=>{
       console.log(res)
-      if(res.success){
-        localStorage.setItem("token",res.token)
-        alert("로그인성공")
-        location.href='/'
+      if(res.id){
+        alert("게시글이 작성되었습니다")
+        location.href='/board/list'
         }
       })
     }
@@ -49,27 +48,28 @@ export class BoardService {
     return this.board.create(createBoard).save();
   }
 
+    
   //전체 게시글 조회
   async listBoard() {
-    const lists= await this.board.find({ select: ["id","title"], order: { createdAt: -1 } });
-    let ret=`<a href="/board/create">글쓰기</a><br><br>
+    const lists= await this.board.find({ select: ["id","title"], order: { createdAt: 1 } });
+    let ret=`<a href="#" onClick="toCreatePage()" >글쓰기</a>&nbsp&nbsp <a href="/" >홈으로</a><br><br>
     <script>
-    function deletePage(){
-      fetch("/board/create",{
+    function toCreatePage(){
+      fetch("/profile",{
         method : "GET",
         headers: {
           "Content-Type": "application/json",
           "Authorization" : localStorage.getItem('token')
         }
-      })
-    .then(function (res){
-      if(res.status==200){
-        alert("삭제 성공")
-        location.href='/board/list';
+        })
+      .then(function (res){
+        if(res.status==200){
+          location.href='/board/create';
+        }else{
+        alert("권한이 없습니다")
       }
-      alert("권한이 없습니다")
     })
-    }
+  }
     </script>
     `
     for(let i=0;i<lists.length;i++)ret+=`${i+1}.  <a href="/board/${lists[i].id}">${lists[i].title}</a><br>`;
@@ -78,11 +78,12 @@ export class BoardService {
 
   //하나의 게시글 조회
   async detailBoard(id: number) {
-    const contents = await this.board.findOne(id);
-    let ret=` <a href="/board/update/${contents.id}">수정</a>
+    const contents =  await this.board.findOne({id:id},{relations:["user"]});
+    const date=new Date(contents.createdAt);
+    let ret=` <a href="#" onClick="toUpdatePage()">수정</a>
               <a href="#" onClick="deletePage()" >삭제</a>
               <a href="javascript:history.back()">뒤로가기</a><br><br>
-    제목 : ${contents.title} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ${new Date(contents.createdAt).getFullYear()}.${new Date(contents.createdAt).getMonth()}.${new Date(contents.createdAt).getDate()}<br><br><br>
+    제목 : ${contents.title} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 작성일 ${date.getFullYear()}.${date.getMonth()}.${date.getDate()}<br><br><br>
     내용 : ${contents.text}
     <script>
     function deletePage(){
@@ -97,13 +98,73 @@ export class BoardService {
       if(res.status==200){
         alert("삭제 성공")
         location.href='/board/list';
-      }
-      alert("권한이 없습니다")
-    })
+      }else{
+      alert("작성자만 삭제 가능합니다")
     }
+    })
+  }
+    function toUpdatePage(){
+      fetch("/profile",{
+        method : "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization" : localStorage.getItem('token')
+        }
+        })
+      .then(res=>res.json())
+      .then(function (res){
+          if(res.username=="${contents.user.username}"){
+          location.href='/board/update/${contents.id}';
+        }else{
+          alert("작성자만 수정 가능합니다")
+        }
+
+        
+    })
+  }
     </script>
     `
     return ret;
+  }
+
+
+  async updateBoardPage(id:number) {
+    const contents = await this.board.findOne({id:id});
+    return `<html><body>
+    <input type="text" value="${contents.title}" id="title" />
+    <input type="text" value="${contents.text}" id="text" />
+    <input type="button" onclick="updateBoard()" id="submit" value="수정" />
+    <script>
+    function updateBoard(){
+      let title = document.getElementById("title").value;
+      let text = document.getElementById("text").value;
+      fetch("/board/update/${contents.id}",{
+          method : "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization" : localStorage.getItem("token")
+          },
+          body:JSON.stringify({
+          "title":title,
+          "text":text
+      }),
+    })
+    .then(res=>res.json())
+    .then(res=>{
+      console.log(res)
+      if(res.text){
+        alert("게시글이 수정되었습니다");
+        location.href='/board/list';
+        }else{
+          alert("게시글은 작성자만 수정이 가능합니다");
+          location.href='/board/list';
+
+        }
+      })
+    }
+    </script>
+   </body></html>
+    `
   }
 
   //게시글 변경
@@ -120,7 +181,6 @@ export class BoardService {
 
   //게시글 삭제 
   async removeBoard(user:any,id: number) {
-    console.log(id)
     let property= await this.board.findOne({id:id},{relations:["user"]});
     if(property.user.identifedNumber!=user.userId){
       throw new UnauthorizedException();

@@ -1,13 +1,13 @@
 import { Controller, Req, Request, Get, Post, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
-import { Response as Res } from 'express';
 import { AppService } from './app.service';
 import { LocalAuthGuard } from './auth/local-auth.guard';
 import { AuthService } from './auth/auth.service';
+import { UsersService } from './users/users.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService, private authService: AuthService) {}
+  constructor(private readonly appService: AppService, private authService: AuthService, private userService: UsersService) {}
 
   @Get()
   getHello(@Req() request: Request): string {
@@ -30,8 +30,9 @@ export class AppController {
   //로그인 확인을 위한 profile
   @UseGuards(JwtAuthGuard)
   @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
+  async getProfile(@Request() req) {
+    const user= await this.userService.findUsername(req.user.userId)
+    return {"username":user.username};
   }
 }
 

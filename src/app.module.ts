@@ -17,7 +17,7 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
     "type": "mysql", 
     "host": process.env.DB_Host||"localhost", 
     "port": 3306,
-    "username": "node", 
+    "username": "root", 
     "password": "boardjs",
     "database": "board_api",
     "entities": [Board,Users], 

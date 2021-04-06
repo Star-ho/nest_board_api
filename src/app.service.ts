@@ -17,15 +17,16 @@ export class AppService {
     <a href="/signup">signup</a> 
     <a href="#" onClick="profile()" >profile</a> 
     <script>
-      function profile(){
-        fetch("/profile",{
+      async function profile(){
+        await fetch("/profile",{
           method : "GET",
           headers: {
             "Content-Type": "application/json",
             "Authorization" : localStorage.getItem('token')
         },
       })
-      .then(console.log(11))//
+      .then(res => res.json())
+      .then(res => alert("안녕하세요 "+res.username+"님"))
       }
     </script>
      </body>
@@ -88,9 +89,11 @@ export class AppService {
       .then(res=>{
         console.log(res)
         if(res.success){
-          localStorage.setItem("token",res.token)
-          alert("로그인성공")
-          location.href='/'
+          localStorage.setItem("token",res.token);
+          alert("로그인성공");
+          location.href='/';
+          }else{
+            alert("id와 비밀번호를 확인해 주시기 바랍니다");
           }
         })
       }
