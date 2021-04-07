@@ -25,7 +25,7 @@ export class BoardService {
           method : "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization" : localStorage.getItem("token")
+            "Authorization" : sessionStorage.getItem("token")
           },
           body:JSON.stringify({
           "title":title,
@@ -37,7 +37,7 @@ export class BoardService {
       console.log(res)
       if(res.id){
         alert("게시글이 작성되었습니다")
-        location.href='/board/list'
+        location.href='/'
         }
       })
     }
@@ -68,7 +68,7 @@ export class BoardService {
     <a href="#" onClick="toUpdatePage()">수정</a>
               <a href="#" onClick="deletePage()" >삭제</a>
               <a href="javascript:history.back()">뒤로가기</a><br><br>
-    제목 : ${contents.title} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 작성일 ${date.getFullYear()}.${date.getMonth()}.${date.getDate()}<br><br><br>
+    제목 : ${contents.title} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 작성일 ${date.getFullYear()}.${date.getMonth()+1}.${date.getDate()}<br><br><br>
     내용 : ${contents.text}
     <script>
     function deletePage(){
@@ -76,13 +76,13 @@ export class BoardService {
         method : "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization" : localStorage.getItem('token')
+          "Authorization" : sessionStorage.getItem('token')
         }
       })
     .then(function (res){
       if(res.status==200){
         alert("삭제 성공")
-        location.href='/board/list';
+        location.href='/';
       }else{
       alert("작성자만 삭제 가능합니다")
     }
@@ -93,7 +93,7 @@ export class BoardService {
         method : "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization" : localStorage.getItem('token')
+          "Authorization" : sessionStorage.getItem('token')
         }
         })
       .then(res=>res.json())
@@ -129,7 +129,7 @@ export class BoardService {
           method : "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization" : localStorage.getItem("token")
+            "Authorization" : sessionStorage.getItem("token")
           },
           body:JSON.stringify({
           "title":title,
@@ -141,10 +141,10 @@ export class BoardService {
       console.log(res)
       if(res.text){
         alert("게시글이 수정되었습니다");
-        location.href='/board/list';
+        location.href='/';
         }else{
           alert("게시글은 작성자만 수정이 가능합니다");
-          location.href='/board/list';
+          location.href='/';
 
         }
       })

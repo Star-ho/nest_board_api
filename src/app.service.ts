@@ -7,31 +7,51 @@ export class AppService {
     <head>
     <title>게시판</title>
     <script src="//code.jquery.com/jquery-3.3.1.js"></script>
-    <link href="main.css" rel="stylesheet" type="text/css" />
-    </head>
-    <a href="/login" id='login' >로그인</a> 
-    <a href="/signup" id='signup' >회원가입</a> 
-    <a href="#" onClick="profile()" id='profile' >프로필</a> 
+    <link rel="stylesheet" href="main.css">
+    
+    <div id='login_wrapper' class='outer' >
+    <div>
+    <button type="button"  id='login' onClick="location.href='/login'"  >로그인</button>
+    <button type="button"  id='signup' onClick="location.href='/signup'" >회원가입</button>
+    <button type="button"  id='profile' onClick="profile()" >프로필</button>
+    <button type="button"  id='logout' onClick="logout()" >로그아웃</button>
 
-    <a href="#" onClick="toCreatePage()" >글쓰기</a>&nbsp&nbsp <a href="/" >홈으로</a><br><br>
-    <div class="container">
-    <h2>Board</h2>
-    <ul class="responsive-table" id="ul" ></ul>
+
+    </div>
+    <h2>게시판</h2>
+    <div>
+
+    <button type="button"  onClick="toCreatePage()"  style="float: right;" >글쓰기</button>
+    </div>
+    <div>
+    <table class="type07" id="table" >
+    <thead id='thead'>
+    </thead>
+    <tbody  id="tbody"  >
+    </tbody>
+    </div>
     </div>
     <script>
+    function logout(){
+      sessionStorage.removeItem('token')
+      location.href='/'
+      //jwt 제거하는거 요청해야함----------
+  }
+
+
     function toCreatePage(){
       fetch("/profile",{
         method : "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization" : localStorage.getItem('token')
+          "Authorization" : sessionStorage.getItem('token')
         }
         })
       .then(function (res){
         if(res.status==200){
           location.href='/board/create';
         }else{
-        alert("권한이 없습니다")
+        alert("로그인 해주시기 바랍니다")
       }
     })
   }
@@ -40,30 +60,37 @@ export class AppService {
       method : "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization" : localStorage.getItem('token')
+        "Authorization" : sessionStorage.getItem('token')
       }
       })
     .then(res=>res.json())
     .then(res=>{
       console.log(res)
-      let ul=$('#ul')
-      for (let i = 0; i <res.length ; i++) {
-        let li = $('<li>')
-        let id = $('<div>')
-        let title = $('<div>')
-        let createdAt = $('<div>')
-        id.addClass('col col-1');
-        title.addClass('col col-1');
-        createdAt.addClass('col col-1');
-        id.innerText = i+1;
-        title.innerHTML = '<a href="/board/'+res[i].id+'">'+res[i].title+'</a>';
-        createdAt.innerText = ''+new Date(res[i].createdAt).getFullYear()+'.'+(new Date(res[i].createdAt).getMonth()+1)+'.'+new Date(res[i].createdAt).getDate();
-      }
-//https://www.google.com/search?q=jquery+add+class&sxsrf=ALeKk001ecjaiE26v_Tl8WXkRaTZjaFTRw%3A1617720791445&ei=13VsYMHMGsamoATT5p3oCA&oq=jquery+add+class&gs_lcp=Cgdnd3Mtd2l6EAMyAggAMgIIADICCAAyAggAMgIIADICCAAyAggAMgIIADICCAAyAggAOgQIIxAnOgcIABCxAxBDOgQIABBDOgUIABCxAzoHCAAQhwIQFDoICAAQsQMQgwFQ-Y0aWPasGmD1rxpoA3AAeACAAXiIAc4OkgEEMS4xNpgBAKABAaoBB2d3cy13aXrAAQE&sclient=gws-wiz&ved=0ahUKEwiBlPrI7-nvAhVGE4gKHVNzB40Q4dUDCA0&uact=5
-//https://stackoverflow.com/questions/31840070/dynamically-add-li-and-div-to-html-page/31840363
-//
-//https://codepen.io/faaezahmd/pen/dJeRex?editors=1100
-//https://stackoverflow.com/questions/56970602/how-can-i-change-the-li-items-to-div-javascript
+      let thead=$('#thead')
+      let li = $('<tr>')
+      let id = $('<th>')
+      let title = $('<th>')
+      let createdAt = $('<th>')
+      id.text('no')
+      title.text('제목')
+      createdAt.text('날짜')
+      li.append(id).append(title).append(createdAt)
+      thead.append(li)
+      let tbody=$('#tbody')
+      for (let i = 0; i <6 ; i++) {
+        let li = $('<tr>')
+        li.addClass("cursor_test")
+        let id = $('<th >')
+        let title = $('<th >')
+        
+        let createdAt = $('<th >')
+        id.text(res[i].id)
+        title.text(res[i].title)
+        createdAt.text(''+new Date(res[i].createdAt).getFullYear()+'.'+(new Date(res[i].createdAt).getMonth()+1)+'.'+new Date(res[i].createdAt).getDate())
+        li.append(id).append(title).append(createdAt)
+        tbody.append(li)
+        }
+        clickTr();
     })
   })()
   </script>
@@ -73,13 +100,15 @@ export class AppService {
         method : "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization" : localStorage.getItem('token')
+          "Authorization" : sessionStorage.getItem('token')
         },
-      })
-      if(res.user){  
+      }).then(res=>res.json())
+      console.log(res)
+      if(res.username){  
         $('#signup').remove();
         $('#login').remove();
       }else{
+        $('#logout').remove();
         $('#profile').remove()
       }
     })()
@@ -88,14 +117,22 @@ export class AppService {
           method : "GET",
           headers: {
             "Content-Type": "application/json",
-            "Authorization" : localStorage.getItem('token')
+            "Authorization" : sessionStorage.getItem('token')
         },
-      })
-      if(res.user){
-        alert("안녕하세요 "+res.user+"님");
+      }).then(res=>res.json())
+      if(res.username){
+        alert("안녕하세요 "+res.username+"님");
       }else{
         alert("로그인이 필요합니다")
       }
+      }
+    </script>
+    <script>
+      function clickTr(){
+        $("#table tr").click(function(){
+          if($(this)[0].children[0].textContent!='no')
+            location.href='/board/'+$(this)[0].children[0].textContent;
+      });
       }
     </script>
      </body>
@@ -163,7 +200,7 @@ export class AppService {
       .then(res=>{
         console.log(res)
         if(res.success){
-          localStorage.setItem("token",res.token);
+          sessionStorage.setItem("token",res.token);
           alert("로그인성공");
           location.href='/';
           }else{
@@ -176,84 +213,58 @@ export class AppService {
   }
 
   mainCssService(): string{
-    return `body {
-      font-family: 'lato', sans-serif;
+    return `
+    #login_wrapper { 
+      border: 20px solid lightblue;
+      padding: 5px 20px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 700px; height: 500px;
+      margin-left: -400px;
+      margin-top : -300px;
+      
+      display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  } 
+    .cursor_test {cursor: pointer;}
+    table.type07 {
+      border-collapse: collapse;
+      text-align: left;
+      line-height: 1.5;
+      border: 1px solid #ccc;
+      margin: 20px
     }
-    .container {
-      max-width: 1000px;
-      margin-left: auto;
-      margin-right: auto;
-      padding-left: 10px;
-      padding-right: 10px;
+    table.type07 thead {
+      border-right: 1px solid #ccc;
+      border-left: 1px solid #ccc;
+      background: #F0F8FF;
     }
-    
-    h2 {
-      font-size: 26px;
-      margin: 20px 0;
-      text-align: center;
-      small {
-        font-size: 0.5em;
-      }
+    table.type07 thead th {
+      padding: 10px;
+      font-weight: bold;
+      vertical-align: top;
     }
-    
-    .responsive-table {
-      li {
-        border-radius: 3px;
-        padding: 25px 30px;
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 25px;
-      }
-      .table-header {
-        background-color: #95A5A6;
-        font-size: 14px;
-        text-transform: uppercase;
-        letter-spacing: 0.03em;
-      }
-      .table-row {
-        background-color: #ffffff;
-        box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
-      }
-      .col-1 {
-        flex-basis: 10%;
-      }
-      .col-2 {
-        flex-basis: 40%;
-      }
-      .col-3 {
-        flex-basis: 25%;
-      }
-      .col-4 {
-        flex-basis: 25%;
+    table.type07 tbody th {
+      width: 150px;
+      padding: 10px;
+      font-weight: bold;
+      vertical-align: top;
+      border-bottom: 1px solid #ccc;
+      background: #fcf1f4;
+    }
+    table.type07 td {
+      width: 350px;
+      padding: 10px;
+      vertical-align: top;
+      border-bottom: 1px solid #ccc;
+    }
+    .changeColor {
+      background-color: #bff0ff;
       }
       
-      @media all and (max-width: 767px) {
-        .table-header {
-          display: none;
-        }
-        .table-row{
-          
-        }
-        li {
-          display: block;
-        }
-        .col {
-          
-          flex-basis: 100%;
-          
-        }
-        .col {
-          display: flex;
-          padding: 10px 0;
-          &:before {
-            color: #6C7A89;
-            padding-right: 10px;
-            content: attr(data-label);
-            flex-basis: 50%;
-            text-align: right;
-          }
-        }
-      }
-    }`
+`
   }
 }
