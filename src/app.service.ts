@@ -74,6 +74,11 @@ export class AppService {
       let id = $('<th>')
       let title = $('<th>')
       let createdAt = $('<th>')
+      id.css('width',"70")
+      id.css('text-align',"center")
+      createdAt.css('text-align',"center")
+      title.css('text-align',"center")
+      title.css('width',"280")
       id.text('no')
       title.text('제목')
       createdAt.text('날짜')
@@ -85,8 +90,11 @@ export class AppService {
         li.addClass("cursor_test")
         let id = $('<th >')
         let title = $('<th >')
-        
         let createdAt = $('<th >')
+        id.css('width',"70")
+        id.css('text-align',"center")
+        createdAt.css('text-align',"center")
+        title.css('width',"280")
         id.text(res[i].id)
         title.text(res[i].title)
         createdAt.text(''+new Date(res[i].createdAt).getFullYear()+'.'+(new Date(res[i].createdAt).getMonth()+1)+'.'+new Date(res[i].createdAt).getDate())
@@ -354,6 +362,7 @@ export class AppService {
       padding: 10px;
       font-weight: bold;
       vertical-align: top;
+      border: 1px solid #ccc;
     }
     table.type07 tbody th {
       width: 150px;
@@ -362,6 +371,7 @@ export class AppService {
       vertical-align: top;
       border-bottom: 1px solid #ccc;
       background: #fcf1f4;
+      border: 1px solid #ccc;
     }
     table.type07 td {
       width: 350px;
