@@ -8,20 +8,23 @@ export class AppService {
     <title>게시판</title>
     <script src="//code.jquery.com/jquery-3.3.1.js"></script>
     <link rel="stylesheet" href="main.css">
-    
-    <div id='login_wrapper' class='outer' >
-    <div>
-    <button type="button"  id='login' onClick="location.href='/login'"  >로그인</button>
-    <button type="button"  id='signup' onClick="location.href='/signup'" >회원가입</button>
-    <button type="button"  id='profile' onClick="profile()" >프로필</button>
-    <button type="button"  id='logout' onClick="logout()" >로그아웃</button>
+    </head>
 
-
+    <body>
+    <div id='login_wrapper' >
+    <div style='width:500px'>
+    <div class='btn_group' >
+    <button type="button"  id='login' onClick="location.href='/login'" class='button' >로그인</button> 
+    <button type="button"  id='signup' onClick="location.href='/signup'" class='button' >회원가입</button>
+    <button type="button"  id='profile' onClick="profile()" class='button' >프로필</button>
+    <button type="button"  id='logout' onClick="logout()" class='button' >로그아웃</button>
     </div>
-    <h2>게시판</h2>
-    <div>
-
-    <button type="button"  onClick="toCreatePage()"  style="float: right;" >글쓰기</button>
+    </div>
+    <h2 style='margin:3px'>게시판</h2>
+    <div style='width:500px'>
+    <div class='btn_group' >
+    <button type="button"  onClick="toCreatePage()" class='button' >글쓰기</button>
+    </div>
     </div>
     <div>
     <table class="type07" id="table" >
@@ -139,16 +142,64 @@ export class AppService {
      </html>`;
   }  
   toSignUp(): string {
-    return `<html><body>
-      <input type="text" placeholder="아이디" id="id" />
-      <input type="password" placeholder="비밀번호" className="password_input" id="pw" />
-      <input type="username" placeholder="사용자 이름" className="password_input" id="username" />
-      <input type="button" onclick="signup()" id="submit" value="회원가입" />
+    return `<html><html>
+    <head>
+    <title>게시판</title>
+    <script src="//code.jquery.com/jquery-3.3.1.js"></script>
+    <link rel="stylesheet" href="main.css">
+    <style> 
+     .input_div{
+       margin:7px;
+     }
+     .input_val{
+      width:250px;height:40px;font-size:20px;
+      margin:10 0 10;
+
+     }
+     h2{
+      font-size:30px;
+      margin:10 0 20;
+
+     }
+    </style>
+    </head>
+    <body>
+    <div id='login_wrapper' >
+    <div class='login' style='width:500px; margin:20px'>
+      <div style='width:200px; float:left;'>
+        <h2 class='h2'>아이디</h2>
+        <h2 class='h2'>비밀번호</h2>
+        <h2 class='h2'>사용자 이름</h2>
+      </div>
+      <div style='width:300px;  float:left;'>
+        <input type="text" class='input_val' placeholder="아이디" id="id" />
+        <input type="password" placeholder="비밀번호" class="input_val" id="pw" />
+        <input type="username" placeholder="사용자 이름" class="input_val" id="username" />
+      </div>
+    </div>
+    <div class='btn_group' stlye='width:500px;'>
+      <button type="button" style='width: 110;' id='logout' onClick="signup()" class='button' >회원가입</button>
+      <button type="button" style='width: 60;' id='logout' onclick="location.href='/'" class='button' >취소</button>
+    </div>
+    </div>
+
       <script>
       function signup(){
         let id = document.getElementById("id").value;
         let pw = document.getElementById("pw").value;
         let username = document.getElementById("username").value;
+        if( id ==''){
+          alert("아이디를 입력해 주세요");
+          return;
+        }
+        if( pw ==''){
+          alert("비밀번호를 입력해 주세요");
+          return;
+        }
+        if( username ==''){
+          alert("사용자 이름을 입력해 주세요");
+          return;
+        }
         fetch("/users/signup",{
             method : "POST",
             headers: {
@@ -178,10 +229,45 @@ export class AppService {
      </body></html>`;
     }
   tologinPage(): string {
-    return `<html><body>
-      <input type="text" placeholder="아이디" id="id" />
-      <input type="password" placeholder="비밀번호" className="password_input" id="pw" />
-      <input type="button" onclick="login()" id="submit" value="로그인" />
+    return `<html>    <head>
+    <title>게시판</title>
+    <script src="//code.jquery.com/jquery-3.3.1.js"></script>
+    <link rel="stylesheet" href="main.css">
+    <style> 
+     .input_div{
+       margin:7px;
+     }
+     .input_val{
+      width:250px;height:40px;font-size:20px;
+      margin:10 0 10;
+
+     }
+     h2{
+      font-size:30px;
+      margin:10 0 20;
+
+     }
+    </style>
+    </head>
+    <body>
+    <div id='login_wrapper' >
+    <div class='login' style='width:500px; margin:20px'>
+      <div style='width:200px; float:left;'>
+        <h2 class='h2'>아이디</h2>
+        <h2 class='h2'>비밀번호</h2>
+      </div>
+      <div style='width:300px;  float:left;'>
+        <input type="text" class='input_val' placeholder="아이디" id="id" />
+        <input type="password" placeholder="비밀번호" class="input_val" id="pw" />
+      </div>
+    </div>
+    <div class='btn_group' stlye='width:500px;'>
+      <button type="button" style='width: 110;' id='logout' onClick="login()" class='button' >로그인</button>
+      <button type="button" style='width: 60;' id='logout' onclick="location.href='/'" class='button' >취소</button>
+    </div>
+    </div>
+    </body>
+
       <script>
       function login(){
         let id = document.getElementById("id").value;
@@ -214,6 +300,28 @@ export class AppService {
 
   mainCssService(): string{
     return `
+    .button{ 
+      border-top-left-radius: 5px; 
+      border-top-right-radius: 5px; 
+      border-bottom-left-radius: 5px; 
+      border-bottom-right-radius: 5px; 
+      margin: 2px; 
+      float: right;
+    } 
+
+    .btn_group button{ 
+      border: 1px solid skyblue; 
+      background-color: rgba(0,0,0,0); 
+      color: skyblue; 
+      padding: 5px; 
+    } 
+
+    .btn_group button:hover{ 
+      color:white; 
+      background-color: skyblue; 
+    }
+
+
     #login_wrapper { 
       border: 20px solid lightblue;
       padding: 5px 20px;

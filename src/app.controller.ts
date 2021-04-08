@@ -1,4 +1,4 @@
-import { Controller, Req, Request, Get, Post, UseGuards } from '@nestjs/common';
+import { Controller, Req, Request, Get, Post, Header, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { AppService } from './app.service';
 import { LocalAuthGuard } from './auth/local-auth.guard';
@@ -30,7 +30,8 @@ export class AppController {
   //로그인 확인을 위한 profile
   @UseGuards(JwtAuthGuard)
   @Get('profile')
-  async getProfile(@Request() req) {
+  @Header('Cache-Control', 'no-store')
+    async getProfile(@Request() req) {
     const user= await this.userService.findUsername(req.user.userId)
     return {"username":user.username};
   }
