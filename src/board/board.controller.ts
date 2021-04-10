@@ -14,11 +14,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
     return this.boardService.listBoard();;
   }
     
-  @Get("create")//게시글 생성 페이지
-  async createboard() {
-    const ret = await this.boardService.createboard();
-    return ret;
-  }
+
   //게시글 생성
   @UseGuards(JwtAuthGuard)
   @Post("create")

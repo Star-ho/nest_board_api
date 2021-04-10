@@ -1,0 +1,67 @@
+<html>    <head>
+    <title>게시판</title>
+    <script src="//code.jquery.com/jquery-3.3.1.js"></script>
+    <link rel="stylesheet" href="main.css">
+    <style> 
+     .input_div{
+       margin:7px;
+     }
+     .input_val{
+      width:250px;height:40px;font-size:20px;
+      margin:10 0 10;
+
+     }
+     h2{
+      font-size:30px;
+      margin:10 0 20;
+
+     }
+    </style>
+    </head>
+    <body>
+    <div id='login_wrapper' >
+    <div class='login' style='width:500px; margin:20px'>
+      <div style='width:200px; float:left;'>
+        <h2 class='h2'>아이디</h2>
+        <h2 class='h2'>비밀번호</h2>
+      </div>
+      <div style='width:300px;  float:left;'>
+        <input type="text" class='input_val' placeholder="아이디" id="id" />
+        <input type="password" placeholder="비밀번호" class="input_val" id="pw" />
+      </div>
+    </div>
+    <div class='btn_group' stlye='width:500px;'>
+      <button type="button" style='width: 110;' onClick="location.href='/auth/login/google'" class='button' >구글로그인</button>
+      <button type="button" style='width: 110;' id='login' onClick="login()" class='button' >로그인</button>
+      <button type="button" style='width: 60;' id='logout' onclick="location.href='/'" class='button' >취소</button>
+    </div>
+    </div>
+    </body>
+
+      <script>
+      function login(){
+        let id = document.getElementById("id").value;
+        let pw = document.getElementById("pw").value;
+        fetch("/auth/login",{
+            method : "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body:JSON.stringify({
+            "id":id,
+            "password":pw
+        }),
+      })
+      .then(res=>res.json())
+      .then(res=>{
+        if(res.success){
+          sessionStorage.setItem("token",res.token);
+          alert("로그인성공");
+          location.href='/';
+          }else{
+            alert("id와 비밀번호를 확인해 주시기 바랍니다");
+          }
+        })
+      }
+      </script>
+     </body></html>

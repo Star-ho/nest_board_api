@@ -1,0 +1,74 @@
+.button{ 
+    border-top-left-radius: 5px; 
+    border-top-right-radius: 5px; 
+    border-bottom-left-radius: 5px; 
+    border-bottom-right-radius: 5px; 
+    margin: 2px; 
+    float: right;
+  } 
+
+  .btn_group button{ 
+    border: 1px solid skyblue; 
+    background-color: rgba(0,0,0,0); 
+    color: skyblue; 
+    padding: 5px; 
+  } 
+
+  .btn_group button:hover{ 
+    color:white; 
+    background-color: skyblue; 
+  }
+
+
+  #login_wrapper { 
+    border: 20px solid lightblue;
+    padding: 5px 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 700px; height: 500px;
+    margin-left: -400px;
+    margin-top : -300px;
+    
+    display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+} 
+  .cursor_test {cursor: pointer;}
+  table.type07 {
+    border-collapse: collapse;
+    text-align: left;
+    line-height: 1.5;
+    border: 1px solid #ccc;
+    margin: 20px
+  }
+  table.type07 thead {
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    background: #F0F8FF;
+  }
+  table.type07 thead th {
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: top;
+    border: 1px solid #ccc;
+  }
+  table.type07 tbody th {
+    width: 150px;
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+    background: #fcf1f4;
+    border: 1px solid #ccc;
+  }
+  table.type07 td {
+    width: 350px;
+    padding: 10px;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+  }
+  .changeColor {
+    background-color: #bff0ff;
+    }

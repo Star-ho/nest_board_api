@@ -75,7 +75,6 @@ export class BoardService {
     })
     .then(res=>res.json())
     .then(res=>{
-      console.log(res)
       if(res.id){
         alert("게시글이 작성되었습니다")
         location.href='/'
@@ -257,7 +256,6 @@ export class BoardService {
     })
     .then(res=>res.json())
     .then(res=>{
-      console.log(res)
       if(res.text){
         alert("게시글이 수정되었습니다");
         location.href='/';

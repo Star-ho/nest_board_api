@@ -1,0 +1,144 @@
+<html>
+    <head>
+    <title>게시판</title>
+    <script src="//code.jquery.com/jquery-3.3.1.js"></script>
+    <link rel="stylesheet" href="main.css">
+    </head>
+
+    <body>
+    <div id='login_wrapper' >
+    <div style='width:500px'>
+    <div class='btn_group' >
+    <button type="button"  id='login' onClick="location.href='/login.html'" class='button' >로그인</button> 
+    <button type="button"  id='signup' onClick="location.href='/signup.html'" class='button' >회원가입</button>
+    <button type="button"  id='profile' onClick="profile()" class='button' >프로필</button>
+    <button type="button"  id='logout' onClick="logout()" class='button' >로그아웃</button>
+    </div>
+    </div>
+    <h2 style='margin:3px'>게시판</h2>
+    <div style='width:500px'>
+    <div class='btn_group' >
+    <button type="button"  onClick="toCreatePage()" class='button' >글쓰기</button>
+    </div>
+    </div>
+    <div>
+    <table class="type07" id="table" >
+    <thead id='thead'>
+    </thead>
+    <tbody  id="tbody"  >
+    </tbody>
+    </div>
+    </div>
+    <script>
+    function logout(){
+      sessionStorage.removeItem('token')
+      location.href='/'
+      //jwt 제거하는거 요청해야함----------
+  }
+
+
+    function toCreatePage(){
+      fetch("/profile",{
+        method : "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization" : sessionStorage.getItem('token')
+        }
+        })
+      .then(function (res){
+        if(res.status==200){
+          location.href='/board/create.html';
+        }else{
+        alert("로그인 해주시기 바랍니다")
+      }
+    })
+  }
+  (async () =>{
+    fetch("/board/list",{
+      method : "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization" : sessionStorage.getItem('token')
+      }
+      })
+    .then(res=>res.json())
+    .then(res=>{
+      let thead=$('#thead')
+      let li = $('<tr>')
+      let id = $('<th>')
+      let title = $('<th>')
+      let createdAt = $('<th>')
+      id.css('width',"70")
+      id.css('text-align',"center")
+      createdAt.css('text-align',"center")
+      title.css('text-align',"center")
+      title.css('width',"280")
+      id.text('no')
+      title.text('제목')
+      createdAt.text('날짜')
+      li.append(id).append(title).append(createdAt)
+      thead.append(li)
+      let tbody=$('#tbody')
+      let len=res.length>6?6:res.length;
+      for (let i = 0; i <len ; i++) {
+        let li = $('<tr>')
+        li.addClass("cursor_test")
+        let id = $('<th >')
+        let title = $('<th >')
+        let createdAt = $('<th >')
+        id.css('width',"70")
+        id.css('text-align',"center")
+        createdAt.css('text-align',"center")
+        title.css('width',"280")
+        id.text(res[i].id)
+        title.text(res[i].title)
+        createdAt.text(''+new Date(res[i].createdAt).getFullYear()+'.'+(new Date(res[i].createdAt).getMonth()+1)+'.'+new Date(res[i].createdAt).getDate())
+        li.append(id).append(title).append(createdAt)
+        tbody.append(li)
+        }
+        clickTr();
+    })
+  })()
+  </script>
+    <script>
+    (async () => {
+      let res = await fetch("/profile",{
+        method : "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization" : sessionStorage.getItem('token')
+        },
+      }).then(res=>res.json())
+      if(res.username){  
+        $('#signup').remove();
+        $('#login').remove();
+      }else{
+        $('#logout').remove();
+        $('#profile').remove()
+      }
+    })()
+      async function profile(){
+      let res =  await fetch("/profile",{
+          method : "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization" : sessionStorage.getItem('token')
+        },
+      }).then(res=>res.json())
+      if(res.username){
+        alert("안녕하세요 "+res.username+"님");
+      }else{
+        alert("로그인이 필요합니다")
+      }
+      }
+    </script>
+    <script>
+      function clickTr(){
+        $("#table tr").click(function(){
+          if($(this)[0].children[0].textContent!='no')
+            location.href='/board/'+$(this)[0].children[0].textContent;
+      });
+      }
+    </script>
+     </body>
+     </html>

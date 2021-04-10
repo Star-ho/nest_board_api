@@ -1,0 +1,89 @@
+<html><html>
+    <head>
+    <title>게시판</title>
+    <script src="//code.jquery.com/jquery-3.3.1.js"></script>
+    <link rel="stylesheet" href="main.css">
+    <style> 
+     .input_div{
+       margin:7px;
+     }
+     .input_val{
+      width:250px;height:40px;font-size:20px;
+      margin:10 0 10;
+
+     }
+     h2{
+      font-size:30px;
+      margin:10 0 20;
+
+     }
+    </style>
+    </head>
+    <body>
+    <div id='login_wrapper' >
+    <div class='login' style='width:500px; margin:20px'>
+      <div style='width:200px; float:left;'>
+        <h2 class='h2'>아이디</h2>
+        <h2 class='h2'>비밀번호</h2>
+        <h2 class='h2'>사용자 이름</h2>
+        <h2 class='h2'>email</h2>
+      </div>
+      <div style='width:300px;  float:left;'>
+        <input type="text" class='input_val' placeholder="아이디" id="id" />
+        <input type="password" placeholder="비밀번호" class="input_val" id="pw" />
+        <input type="username" placeholder="사용자 이름" class="input_val" id="username" />
+        <input type="email" placeholder="이메일" class="input_val" id="email" />
+      </div>
+    </div>
+    <div class='btn_group' stlye='width:500px;'>
+      <button type="button" style='width: 110;' id='logout' onClick="signup()" class='button' >회원가입</button>
+      <button type="button" style='width: 60;' id='logout' onclick="location.href='/'" class='button' >취소</button>
+    </div>
+    </div>
+
+      <script>
+      function signup(){
+        let id = document.getElementById("id").value;
+        let pw = document.getElementById("pw").value;
+        let username = document.getElementById("username").value;
+        let email = document.getElementById("email").value;
+
+        if( id ==''){
+          alert("아이디를 입력해 주세요");
+          return;
+        }
+        if( pw ==''){
+          alert("비밀번호를 입력해 주세요");
+          return;
+        }
+        if( username ==''){
+          alert("사용자 이름을 입력해 주세요");
+          return;
+        }
+        fetch("/users/signup",{
+            method : "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+            id: id,
+            username: username,
+            password: pw,
+            email:email
+          }),
+        })
+        .then(res=>res.json())
+        .then(res=>{
+          if(res.identifedNumber){
+            alert("회원가입 성공")
+            location.href='/'
+          }
+          else if(res.msg){
+            alert(res.msg);
+          }else{
+            alert('다시시도해주세요')
+          }
+        })
+      }
+      </script>
+     </body></html>

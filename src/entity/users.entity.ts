@@ -25,6 +25,9 @@ export class Users extends BaseEntity {
   @Column({length: 100,nullable:false})//pw
   password: string;
   
+  @Column({length: 100})//pw
+  email: string;
+  
   @CreateDateColumn()//생성날짜
   createdAt: Date;
 }

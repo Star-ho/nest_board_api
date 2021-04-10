@@ -21,7 +21,9 @@ export class UsersService {
     return await this.users.findOne({id:id});
   }
   async findUsername(id: string): Promise<Users | undefined> {
-    console.log(id)
     return await this.users.findOne({identifedNumber:parseInt(id)});
+  }
+  async findByEmail(email: string): Promise<Users | undefined> {
+    return await this.users.findOne({email:email});
   }
 }

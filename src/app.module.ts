@@ -10,6 +10,9 @@ import { UsersModule } from './users/users.module';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { GoogleAuthGuard } from './auth/google-auth.guard';
+import { join } from 'path';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 
 @Module({
@@ -24,8 +27,11 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
     "logging": true, 
     "synchronize": true 
   }
-   ), UsersModule, AuthModule],//다른 모듈과 의존성을 위한 import
+   ),ServeStaticModule.forRoot({
+    rootPath: join(__dirname, '..', 'static'),
+  }), 
+  UsersModule, AuthModule],//다른 모듈과 의존성을 위한 import
   controllers: [AppController],
-  providers: [AppService, UsersService, AuthService,JwtAuthGuard],
+  providers: [AppService, UsersService, AuthService,JwtAuthGuard,GoogleAuthGuard],
 })
 export class AppModule {}
