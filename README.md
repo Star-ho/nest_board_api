@@ -1,7 +1,14 @@
-Backend Engineer
+NestJS기반 게시판 페이지
 ==========
-### interest
-* Nest.js
-* node.js
-* javascript
+### 현재 기능
+* Google OAuth기능
+* PassPort를 이용한 로그인
+* 로그인 확인기능
+* 게시판 CRUD
+* 게시판 CRUD시 권한확인
      
+
+### 추가하고 싶은 것들
+* 게시판 에디터 넣기
+* 모듈들 정리
+* 관리자 페이지
