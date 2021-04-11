@@ -2,7 +2,7 @@ NestJS기반 게시판 페이지
 ==========
 ### 현재 기능
 * Google OAuth기능
-* PassPort를 이용한 로그인
+* jwt를 이용한 로그인
 * 로그인 확인기능
 * 게시판 CRUD
 * 게시판 CRUD시 권한확인
