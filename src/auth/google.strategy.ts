@@ -13,13 +13,19 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       clientID: '771606542006-4cjjjkh3m86ittptde74e3h07puru2pe.apps.googleusercontent.com',
       clientSecret: '0M3FVIlbqFeeFJ7GfGTwYZfp',
       callbackURL: 'http://localhost:3000/auth/login/google/redirect',
-      scope: ['email', 'profile'],
+      scope: ['email','profile'],
     });
   }
 
   async validate (accessToken: string, refreshToken: string, profile: any, done: VerifyCallback): Promise<any> {
-    const { name, emails, photos } = profile
+    const user = await this.authService.validateUser({email:profile.emails[0].value})||'fail';
+    done(null, user);
+  }
+}
+
+
     /*
+    validate함수
     const user = {
       email: emails[0].value,
       firstName: name.givenName,
@@ -27,10 +33,3 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       picture: photos[0].value,
       accessToken
     }*/
-    const user = await this.authService.validateUser(emails[0].value);
-    if (!user) {
-      throw new UnauthorizedException();
-    }
-    done(null, user);
-  }
-}

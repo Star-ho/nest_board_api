@@ -6,8 +6,14 @@ import { AuthService } from './auth/auth.service';
 export class AppService {
   constructor(private authService: AuthService){}
      async googleLogin(req) {
-      if (!req.user) {
-        return 'No user from google'
+      console.log(req.user,23)
+      if (req.user=='fail') {
+        return `<html><body>
+        <script>
+        alert('이메일을 등록해주세요')
+        location.href='/';
+        </script>
+        </body></html>`
       }
       let jwt= await this.authService.login(req.user)
 

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, UseGuards,Request } from "@nestjs/common";
+import { Controller, Put, Body, Patch, Get, Param, UseGuards,Request, Delete } from "@nestjs/common";
 import Board from "../entity/board.entity";
 import { BoardService } from "./board.service";
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -21,7 +21,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
   }
   //게시글 생성
   @UseGuards(JwtAuthGuard)
-  @Post("create")
+  @Put("create")
   async create(@Request() req,@Body() createBoard: Board) {
     const ret = await this.boardService.createBoardFunc(req.user,createBoard);
     return ret;
@@ -41,7 +41,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post("update/:id")
+  @Patch("update/:id")
   async update(@Request() req,@Param("id") boardId: number,@Body() updateData: Board) {
     const ret = await this.boardService.updateBoard(req.user,boardId,updateData);
     return ret;
@@ -49,7 +49,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
   
   //id에 해당하는 게시글 삭제, jwt로 인증하여 IdentificationNuber가 같아야 삭제
   @UseGuards(JwtAuthGuard)
-  @Get("delete/:id")
+  @Delete("delete/:id")
   async delete(@Request() req,@Param("id") boardId: number) {
     const ret = await this.boardService.removeBoard(req.user,boardId);
     return ret;

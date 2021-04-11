@@ -1,12 +1,12 @@
 import { Entity, PrimaryGeneratedColumn,BaseEntity, Unique, Column, CreateDateColumn, OneToMany } from "typeorm";
 import { Board } from "./board.entity"
 
-@Unique(["id"])
+@Unique(["id","email"])
 @Entity()
 export class Users extends BaseEntity { 
 
   @PrimaryGeneratedColumn({
-  name: "identification"
+    name: "identification"
   })
   identifedNumber: number;
 
@@ -25,7 +25,7 @@ export class Users extends BaseEntity {
   @Column({length: 100,nullable:false})//pw
   password: string;
   
-  @Column({length: 100})//pw
+  @Column({length: 100})//OAuth인증을 위한 email
   email: string;
   
   @CreateDateColumn()//생성날짜

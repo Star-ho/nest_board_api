@@ -61,7 +61,7 @@
           return;
         }
         fetch("/users/signup",{
-            method : "POST",
+            method : "Put",
             headers: {
               "Content-Type": "application/json",
             },
@@ -76,7 +76,7 @@
         .then(res=>{
           if(res.identifedNumber){
             alert("회원가입 성공")
-            location.href='/'
+            location.href='/login.html'
           }
           else if(res.msg){
             alert(res.msg);

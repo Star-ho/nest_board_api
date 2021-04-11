@@ -17,7 +17,7 @@ export class AppController {
     return this.authService.login(req.user);
   }
 
-  //로그인 확인을 위한 profile
+  //로그인 확인을 위한 profile, 로그인 되어 있으면 유저네임 반환
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   @Header('Cache-Control', 'no-store')
@@ -28,12 +28,10 @@ export class AppController {
 
   @UseGuards(GoogleAuthGuard)
   @Get('/auth/login/google')
-  async googleAuth(@Req() req) {
-    
-  }
-
-  @Get('/auth/login/google/redirect')
+  async googleAuth(@Req() req) {}
+  
   @UseGuards(GoogleAuthGuard)
+  @Get('/auth/login/google/redirect')
   googleAuthRedirect(@Req() req) {
     return this.appService.googleLogin(req)
   }

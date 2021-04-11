@@ -10,12 +10,11 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   }
 
   //유저 확인, user가 없으면 UnauthorizedException에러 뿌림
-  async validate(id: string,password: string): Promise<any> {
-    const user = await this.authService.validateUser(id, password);
+  async validate(id: string,pass: string): Promise<any> {
+    const user = await this.authService.validateUser({id:id, pass:pass});
     if (!user) {
       throw new UnauthorizedException();
     }
     return user;
   }
-  
 }

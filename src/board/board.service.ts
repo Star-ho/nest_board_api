@@ -63,7 +63,7 @@ export class BoardService {
         return;
       }
       fetch("/board/create",{
-          method : "POST",
+          method : "Put",
           headers: {
             "Content-Type": "application/json",
             "Authorization" : sessionStorage.getItem("token")
@@ -129,7 +129,7 @@ export class BoardService {
     <div id='login_wrapper' >
     <div class='btn_group' style='width:500px;'>
       <button type="button" style='width: 60' onClick="toUpdatePage()" class='button' >수정</button>
-      <button type="button" style='width: 60' onclick="deletePage='/'" class='button' >삭제</button>
+      <button type="button" style='width: 60' onclick="deletePage()" class='button' >삭제</button>
       <button type="button" style='width: 80' onclick="location.href='/'" class='button' >홈으로</button>
     </div>
     <div class='login' style='width:500px; margin:20px'>
@@ -147,13 +147,14 @@ export class BoardService {
     <script>
     function deletePage(){
       fetch("/board/delete/${contents.id}",{
-        method : "GET",
+        method : "DELETE",
         headers: {
           "Content-Type": "application/json",
           "Authorization" : sessionStorage.getItem('token')
         }
       })
     .then(function (res){
+      console.log(res)
       if(res.status==200){
         alert("삭제 성공")
         location.href='/';
@@ -244,7 +245,7 @@ export class BoardService {
         return;
       }
       fetch("/board/update/${contents.id}",{
-          method : "POST",
+          method : "PATCH",
           headers: {
             "Content-Type": "application/json",
             "Authorization" : sessionStorage.getItem("token")
